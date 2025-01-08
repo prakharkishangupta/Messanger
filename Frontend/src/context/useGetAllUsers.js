@@ -10,7 +10,7 @@ function useGetAllUsers() {
         const getUserDetails = async ()=>{
             setLoading(true);
             try {
-              const token = Cookies.get("jwt");
+              // const token = Cookies.get("jwt");
               
               const result = await axios.get("/api/user/getUserProfile", {
                   withCredentials: true, // Ensures the JWT cookie is included in the request

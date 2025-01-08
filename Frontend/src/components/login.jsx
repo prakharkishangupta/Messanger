@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import toast from "react-hot-toast";
 
 function Login() {
     const [authUser, setAuthUser] = useAuth();
@@ -18,7 +19,7 @@ function Login() {
         await axios.post("/api/user/login", userInfo).then((response)=>{
             console.log(response.data);
             if(response.data){
-                alert("User Logged in Successfully");
+                toast.success("User Logged in Successfully");
             }
             localStorage.setItem("messanger", JSON.stringify(response.data));
             setAuthUser(response.data);
@@ -30,7 +31,7 @@ function Login() {
         }).catch((error)=>{
             console.log(error);
             if(error.response){
-                alert("Error: " + error.response.data.mesage);
+                toast.error("Error: " + error.response.data.mesage);
             }
         })
     }

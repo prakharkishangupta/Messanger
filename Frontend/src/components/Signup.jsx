@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useAuth } from "../context/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Signup() {
     const [authUser, setAuthUser] = useAuth();
@@ -17,14 +18,14 @@ function Signup() {
         await axios.post("/api/user/signup", userInfo).then((response)=>{
             console.log(response.data);
             if(response.data){
-                alert("User Registered Successfully");
+                toast.success("User Registered Successfully");
             }
             localStorage.setItem("messanger", JSON.stringify(response.data));
             setAuthUser(response.data)
         }).catch((error)=>{
             console.log(error);
             if(error.response){
-                alert("Error: " + error.response.data.message);
+                toast.error("Error: " + error.response.data.message);
             }
         })
     }

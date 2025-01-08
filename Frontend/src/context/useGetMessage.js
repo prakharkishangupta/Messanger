@@ -5,7 +5,7 @@ import axios from 'axios';
 function useGetMessage() {
     const [loading, setLoading] = useState(false);
     const {messages, setMessages, selectedConversation} = useConversation();
-    console.log(messages);
+    // console.log(messages);
     
     useEffect(() => {
       const getMessage = async ()=>{
@@ -18,7 +18,7 @@ function useGetMessage() {
                   withCredentials: true, // Ensures the JWT cookie is included in the request
                   
               });
-              console.log("messageList: ", res.data);
+              // console.log("messageList: ", res.data);
                 setMessages(res.data);
                 
                 setLoading(false);
@@ -30,8 +30,9 @@ function useGetMessage() {
       getMessage()
     }, [selectedConversation, setMessages]);
   return {
-    messages,
-    loading
+    loading,
+    messages
+    
   }
 }
 

@@ -1,7 +1,7 @@
 import Conversation from "../models/conversation.js";
 import Message from "../models/Message.js";
-import { getRecieverSocketId } from "./Socket.IO/server.js";
-import { io, users } from "./Socket.IO/server.js";
+import { getRecieverSocketId, getSenderSocketId } from "../Socket.IO/server.js";
+import { io, users } from "../Socket.IO/server.js";
 
 export const sendMessage = async (req, res)=>{
     console.log("message sent", req.body.message, req.params.id);
@@ -34,12 +34,17 @@ export const sendMessage = async (req, res)=>{
         await Promise.all([newMessage.save(), conversation.save()]);
         console.log(newMessage);
         const recieverSocketId = getRecieverSocketId(recieverId);
+        const senderSocketId = getSenderSocketId(senderId)
         console.log("provide: ", recieverSocketId, newMessage, recieverId);
         if(recieverSocketId){
             io.to(recieverSocketId).emit("newMessage", newMessage);
             console.log("provide: ", recieverSocketId, newMessage);
         }
-        return res.status(201).json({message: "Message sent successfully", newMessage});
+        if(senderSocketId){
+            io.to(senderSocketId).emit("newMessage", newMessage);
+            
+        }
+        return res.status(201).json({newMessage});
         
     } catch (error) {
         console.log("Error in sending message: ", error);
@@ -51,6 +56,7 @@ export const getMessage = async (req, res)=>{
     console.log("message got", req.params.id);
     try {
         const {id:chatUser} = req.params;
+        console.log("senderid: ", req.user);
         const senderId = req.user.userId;
         
         let conversation = await Conversation.findOne({
@@ -58,10 +64,10 @@ export const getMessage = async (req, res)=>{
         }).populate("messages")     // The .populate("messages") ensures that the messages field in the Conversation document is replaced with the actual Message documents referenced by their ObjectIDs
         
         if(!conversation){
-            return res.status(201).json("Lets begin the chat!")
+            return res.status(201).json([])
         }
         const messages = conversation.messages;
-        return res.status(201).json({messages});
+        return res.status(201).json(messages);
         
     } catch (error) {
         console.log("Error in getting message: ", error);

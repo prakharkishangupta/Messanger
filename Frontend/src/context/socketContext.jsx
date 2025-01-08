@@ -22,7 +22,7 @@ export const SocketProvider = ({children})=>{
                 
             })
             setSocket(socket)
-            socket.on("getOnline", (users)=>{
+            socket.on("getOnlineUser", (users)=>{
                 setOnlineUser(users)
                 console.log("socket disconnected", socket.id);
             })

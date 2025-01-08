@@ -5,20 +5,17 @@ import axios from 'axios';
 function useSendMessage() {
     const [loading, setLoading] = useState(false);
     const {messages, setMessages, selectedConversation} = useConversation();
-    console.log(messages);
+    // console.log(messages);
       const sendMessage = async (message)=>{
         setLoading(true);
-        console.log("meesage-:", message);
-        console.log("selecteCon: ", selectedConversation);
+        // console.log("meesage-:", message);
+        // console.log("selecteCon: ", selectedConversation);
         
         
             try {
-                const res = await axios.post(`/api/message/send/${selectedConversation._id}`, {message}, {
-                    withCredentials: true, // Ensures the JWT cookie is included in the request
-                    
-                });
-                console.log("messageListCheck: ", res.data);
-                setMessages([...messages, res.data.newMessage]);
+                const res = await axios.post(`/api/message/send/${selectedConversation._id}`, {message});
+                // console.log("messageListCheck: ", res.data);
+                setMessages([...messages, res.data]);
                 
                 
                 setLoading(false);

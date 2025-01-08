@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { IoSearchCircle } from "react-icons/io5";
 import useConversation from "../../stateManage/useConversation.js"
 import useGetAllUsers from '../../context/useGetAllUsers.js';
+import toast from 'react-hot-toast';
 function Search() {
     const [search, setSearch] = useState();
     const {users, loading} = useGetAllUsers();
@@ -15,12 +16,13 @@ function Search() {
             const conversation = users.find((user)=>{
                 return user.userName.toLowerCase().includes(search.toLowerCase());
             })
+            console.log("conversation", conversation);
             if(conversation){
                 setSelectedConversation(conversation);
-                setSearch(" ");
+                setSearch("");
             }
             else{
-                alert("User not found")
+                toast.error("User not found")
             }
         })}>
             <div className='flex space-x-4'>

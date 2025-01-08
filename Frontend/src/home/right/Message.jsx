@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 function Message({message}) {
-  // console.log("message: ", message);
+  console.log("messagecht: ", message);
 
   const authUser = JSON.parse(localStorage.getItem("messanger")); 
   // console.log("authUser", authUser);
   const itsMe = message.senderId === authUser.user._id;
+  // console.log("itsme", itsMe);
   const chatSide = itsMe? "chat-end":"chat-start";
   const chatColor = itsMe? "bg-blue-400": "bg-grey-400";
   const createdAt = new Date(message.createdAt);
@@ -14,7 +15,8 @@ function Message({message}) {
     hour:"2-digit",
     minute:"2-digit"
   })
- 
+  // console.log("frotime:", formatedTime);
+//  console.log("messagech: ", message);
   return (
     <>
         <div className={`chat ${chatSide}`}>
@@ -32,6 +34,7 @@ function Message({message}) {
 // PropTypes validation
 Message.propTypes = {
   message: PropTypes.shape({
+    
     message: PropTypes.string.isRequired,
     senderId: PropTypes.string.isRequired,
     createdAt:PropTypes.string.isRequired

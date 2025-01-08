@@ -15,8 +15,12 @@ const io = new Server(server, {
 });
 
 export const getRecieverSocketId = (recieverId)=>{
-    console.log(recieverId);
+    console.log("recieverId: ", recieverId);
     return users[recieverId];
+}
+export const getSenderSocketId = (senderId)=>{
+    console.log("senderId: ", senderId);
+    return users[senderId];
 }
 const users = {};
 
@@ -27,11 +31,11 @@ io.on("connection", (socket)=>{
         users[userId] = socket.id;
         console.log("users: ", users);
     }
-    io.emit("getOnline", Object.keys(users))
+    io.emit("getOnlineUser", Object.keys(users))
     socket.on("disconnect", ()=>{
         console.log("Client disconnected", socket.id);
         delete users[userId];
-        io.emit("getOnline", Object.keys(users))
+        io.emit("getOnlineUser", Object.keys(users))
     })
 })
 

@@ -6,7 +6,7 @@ import messageRoute from "./routes/messageRouter.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { authMiddleware } from "./middleware/authMiddleware.js";
-import { app, server } from "./controler/Socket.IO/server.js";
+import { app, server } from "./Socket.IO/server.js";
 
 dotenv.config();
 

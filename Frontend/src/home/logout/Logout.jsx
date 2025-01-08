@@ -2,6 +2,7 @@ import React from 'react';
 import { TbLogout2 } from "react-icons/tb";
 import { useAuth } from "../../context/AuthProvider";
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 export default function Logout() {
   const [authUser, setAuthUser] = useAuth();
@@ -14,10 +15,10 @@ export default function Logout() {
       });
       setAuthUser(null)
       localStorage.removeItem('messanger')
-      alert("You have been logged out successfully!");
+      toast.success("You have been logged out successfully!");
     } catch (error) {
       console.log(error);
-      alert("Failed to logout, try again later!");
+      toast.error("Failed to logout, try again later!");
     }
     
   }
